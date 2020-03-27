@@ -37,7 +37,7 @@ public class ZuulLoggingFilter extends ZuulFilter {
 	// Especifica el tipo de retorno, pre, error, post,
 	@Override
 	public String filterType() {
-		return null;
+		return "pre";
 	}
 
 	@Override

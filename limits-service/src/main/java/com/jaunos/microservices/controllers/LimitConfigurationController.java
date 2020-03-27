@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jaunos.microservices.config.Configuration;
 import com.jaunos.microservices.config.LimitConfiguration;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
+
 
 @RestController
 @EnableDiscoveryClient()
@@ -21,4 +24,17 @@ public class LimitConfigurationController {
 				configuration.getMaximum(), 
 				configuration.getMinimum());
 	}
+	
+	@GetMapping("/fault-to-tolerance-example")
+	@HystrixCommand(fallbackMethod="fallbackRetrieveConfiguration")
+	public LimitConfiguration retrieveConfiguration() {
+		throw new RuntimeException("Not avaliable");
+	}
+	
+	
+	public LimitConfiguration fallbackRetrieveConfiguration() {
+		return new LimitConfiguration(999,9);
+	}
+	
+	
 }
